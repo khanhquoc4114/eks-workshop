@@ -14,10 +14,10 @@ const config: Config = {
   },
 
   url: 'https://khanhquoc4114.github.io/',
-  baseUrl: '/serverless-security-workshop/',
+  baseUrl: '/eks-workshop/',
 
   organizationName: 'khanhquoc4114',
-  projectName: 'serverless-security-workshop',
+  projectName: 'eks-workshop',
 
   onBrokenLinks: 'throw',
 
@@ -35,7 +35,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/khanhquoc4114/serverless-security-workshop/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/khanhquoc4114/eks-workshop/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
           showReadingTime: true,
@@ -46,7 +46,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/khanhquoc4114/serverless-security-workshop/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/khanhquoc4114/eks-workshop/tree/main/packages/create-docusaurus/templates/shared/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -81,7 +81,7 @@ const config: Config = {
         // {to: '/blog', label: 'Blog', position: 'left'},
         {to: '/contributor', label: 'Contributors', position: 'left'},
         {
-          href: 'https://github.com/khanhquoc4114/serverless-security-workshop',
+          href: 'https://github.com/khanhquoc4114/eks-workshop',
           label: 'GitHub',
           position: 'right',
         },
@@ -125,7 +125,7 @@ const config: Config = {
       //       },
       //       {
       //         label: 'GitHub',
-      //         href: 'https://github.com/khanhquoc4114/serverless-security-workshop',
+      //         href: 'https://github.com/khanhquoc4114/eks-workshop',
       //       },
       //     ],
       //   },
