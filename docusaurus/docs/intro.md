@@ -1,4 +1,4 @@
 ---
 id: intro
-slug: /eks-workshop
+slug: /intro
 ---
