@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkdocusaurus=globalThis.webpackChunkdocusaurus||[]).push([[313],{1901(s){s.exports=JSON.parse('{"tags":[{"label":"Docusaurus","permalink":"/eks-workshop/blog/tags/docusaurus","description":"Docusaurus tag description","count":1}]}')}}]);
