@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="atom.xsl"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://khanhquoc4114.github.io/eks-workshop/blog</id>
-    <title>AWS Observability Blog</title>
+    <title>AWS EKS Workshop Blog</title>
     <updated>2021-08-01T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://khanhquoc4114.github.io/eks-workshop/blog"/>
-    <subtitle>AWS Observability Blog</subtitle>
+    <subtitle>AWS EKS Workshop Blog</subtitle>
     <icon>https://khanhquoc4114.github.io/eks-workshop/img/aws-logo.ico</icon>
     <entry>
         <title type="html"><![CDATA[MDX Blog Post]]></title>
