@@ -18,7 +18,7 @@ This EKS Workshop provides hands-on lab exercises to learn and explore Amazon EK
 
 ## 1. Setup: Using eksctl
 
-### Cluster Configuration
+### 1.1 Cluster Configuration
 
 ```yaml
 apiVersion: eksctl.io/v1alpha5
@@ -66,7 +66,7 @@ remoteNetworkConfig:
     - cidrs: ["10.53.0.0/16"]
 ```
 
-### Steps
+### 1.2 Create Cluster
 
 **Step 1:** Set environment variables and create cluster
 ```bash
@@ -82,6 +82,9 @@ This process takes approximately 20 minutes.
 
 ## 2. Cleanup
 
+### Overview
+When you finish the workshop, clean up all resources to avoid ongoing charges.
+
 **Step 1:** Remove sample application and lab infrastructure
 ```bash
 delete-environment
@@ -96,10 +99,9 @@ eksctl delete cluster $EKS_CLUSTER_NAME --wait
 
 ## 3. Sample Application
 
-### Overview
 The labs use a retail-store sample app with a UI and multiple backend services simulating a web store.
 
-### Core Components
+### 3.1 Core Components
 
 | Component | Description                                          |
 | --------- | ---------------------------------------------------- |
@@ -109,8 +111,7 @@ The labs use a retail-store sample app with a UI and multiple backend services s
 | Checkout  | Orchestrates checkout flow                           |
 | Orders    | Receives and processes customer orders               |
 
-
-### Container Images
+### 3.2 Container Images
 
 All components are pre-built and available in Amazon ECR Public:
 
@@ -126,7 +127,7 @@ All components are pre-built and available in Amazon ECR Public:
 
 ## 4. Microservices on Kubernetes
 
-### Kubernetes Building Blocks
+### Overview
 
 Each service uses standard Kubernetes resources:
 
@@ -192,10 +193,7 @@ kubectl get deployment -l app.kubernetes.io/created-by=eks-workshop -A
 
 ## 7. Kustomize
 
-### Overview
 Kustomize allows you to manage Kubernetes manifests using declarative "kustomization" files. It provides the ability to express "base" manifests and apply changes using composition and customization.
-
-### Steps
 
 **Step 1:** Prepare environment
 ```bash
@@ -222,10 +220,7 @@ kubectl get pod -n checkout -l app.kubernetes.io/component=service
 
 ## 8. Helm
 
-### Overview
 Helm is a package manager for Kubernetes that uses charts to define, install, and upgrade applications. It simplifies deployment and management of applications on Kubernetes clusters.
-
-### Steps
 
 **Step 1:** Prepare environment
 ```bash
@@ -262,7 +257,7 @@ kubectl get pod -n ui
 ```
 ![](../img/introduction/2026-02-06-03-40-20.png)
 
-### Configuring Chart Options
+### 8.1 Configuring Chart Options
 
 **Step 7:** Upgrade with custom values
 ```bash

@@ -143,7 +143,7 @@ kubectl -n amazon-guardduty get pods
 
 EKS Audit Log Monitoring analyzes Kubernetes audit logs to detect potentially malicious activities.
 
-#### Lab 1: Unsafe Execution in kube-system Namespace
+#### 1. Unsafe Execution in kube-system Namespace
 Generates finding: `Execution:Kubernetes/ExecInKubeSystemPod`
 
 1. Create a Pod in kube-system namespace:
@@ -166,7 +166,7 @@ kubectl -n kube-system exec nginx -- pwd
 kubectl -n kube-system delete pod nginx
 ```
 ![](../img/security/2026-02-06-14-30-02.png)
-#### Lab 2: Admin Access to Default Service Account
+#### 2. Admin Access to Default Service Account
 Generates finding: `Policy:Kubernetes/AdminAccessToDefaultServiceAccount`
 
 1. Bind cluster-admin role to default Service Account:
@@ -181,7 +181,7 @@ kubectl -n default create rolebinding sa-default-admin --clusterrole cluster-adm
 kubectl -n default delete rolebinding sa-default-admin
 ```
 ![](../img/security/2026-02-06-14-32-05.png)
-#### Lab 3: Exposed Kubernetes Dashboard
+#### 3. Exposed Kubernetes Dashboard
 Generates finding: `Policy:Kubernetes/ExposedDashboard`
 
 1. Install Kubernetes dashboard:
@@ -206,7 +206,7 @@ kubectl -n kubernetes-dashboard patch svc kubernetes-dashboard -p='{"spec": {"ty
 kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
 ```
 ![](../img/security/2026-02-06-14-37-57.png)
-#### Lab 4: Privileged Container with Sensitive Mount
+#### 4. Privileged Container with Sensitive Mount
 Generates findings: `PrivilegeEscalation:Kubernetes/PrivilegedContainer` and `Persistence:Kubernetes/ContainerWithSensitiveMount`
 
 1. Apply privileged Pod manifest (with `securityContext: privileged: true` and host `/etc` mount):
@@ -230,7 +230,7 @@ kubectl delete -f ~/environment/eks-workshop/modules/security/Guardduty/mount/pr
 
 EKS Runtime Monitoring uses the GuardDuty security agent to detect threats at the operating system level (file access, process execution, network connections).
 
-#### Lab 5: Crypto Currency Mining Detection
+#### 5. Crypto Currency Mining Detection
 Generates findings: `Execution:Runtime/NewBinaryExecuted` and `CryptoCurrency:Runtime/BitcoinTool.B!DNS`
 
 1. Create a Pod for simulation:
@@ -320,7 +320,7 @@ aws eks list-access-policies
 
 ### Associating Access Policies
 
-#### Lab 1: Create Read-Only Access
+#### 1. Create Read-Only Access
 
 1. Create access entry for read-only IAM role:
 ```bash
@@ -360,7 +360,7 @@ kubectl --context readonly delete pod -n ui --all
 
 ![](../img/security/2026-02-06-15-41-43.png)
 
-#### Lab 2: Namespace-Scoped Access
+#### 2. Namespace-Scoped Access
 
 1. Associate policy scoped to specific namespace:
 ```bash
@@ -396,7 +396,7 @@ aws eks list-associated-access-policies --cluster-name $EKS_CLUSTER_NAME --princ
 
 For fine-grained permissions beyond pre-defined access policies, use Kubernetes RBAC groups.
 
-#### Lab 3: Custom RBAC Permissions
+#### 3. Custom RBAC Permissions
 
 1. Create Kubernetes Role (view all + delete pods in carts namespace):
 ```yaml
@@ -475,7 +475,7 @@ kubectl --context carts-team get pod -n catalog
 
 ### Migrating from aws-auth ConfigMap
 
-#### Lab 4: Migrate Existing Identity Mapping
+#### 4. Migrate Existing Identity Mapping
 
 1. Check current aws-auth ConfigMap:
 ```bash
@@ -568,7 +568,7 @@ prepare-environment security/pss-psa
 
 ---
 
-### Lab 1: Deploy Test Workload
+### 1. Deploy Test Workload
 
 1. Apply test workload in `pss` namespace:
 ```bash
@@ -593,7 +593,7 @@ kubectl -n pss get pod
 
 ---
 
-### Lab 2: Privileged PSS Profile
+### 2. Privileged PSS Profile
 
 The Privileged profile is most permissive and allows privilege escalations. It's the default cluster-wide setting.
 
@@ -625,7 +625,7 @@ kubectl -n pss exec $(kubectl -n pss get pods -o name) -- whoami
 
 ---
 
-### Lab 3: Baseline PSS Profile
+### 3. Baseline PSS Profile
 
 The Baseline profile prevents known privilege escalations.
 
@@ -677,7 +677,7 @@ kubectl -n pss exec $(kubectl -n pss get pods -o name) -- whoami
 
 ---
 
-### Lab 4: Restricted PSS Profile
+### 4. Restricted PSS Profile
 
 The Restricted profile is the most heavily restricted policy.
 
@@ -765,7 +765,7 @@ kubectl -n kyverno get all
 
 ---
 
-### Lab 1: Creating a Simple Validation Policy
+### 1. Creating a Simple Validation Policy
 
 Create a policy that requires `CostCenter` label on all Pods.
 
@@ -820,7 +820,7 @@ kubectl -n ui get pods --show-labels
 
 ---
 
-### Lab 2: Mutation Policy
+### 2. Mutation Policy
 
 Create a policy that automatically adds labels to Pods.
 
@@ -843,9 +843,10 @@ kubectl -n carts get pods --show-labels
 # CostCenter=IT label automatically added
 ```
 ![](../img/security/2026-02-06-16-36-37.png)
+
 ---
 
-### Lab 3: Enforcing Pod Security Standards (Baseline)
+### 3. Enforcing Pod Security Standards (Baseline)
 
 Create a Baseline policy that prevents known privilege escalations.
 
@@ -874,7 +875,7 @@ kubectl run privileged-pod --image=nginx --restart=Never --privileged
 
 ---
 
-### Lab 4: Restricting Image Registries
+### 4. Restricting Image Registries
 
 Create a policy that only allows images from trusted registries.
 
@@ -912,7 +913,7 @@ kubectl run nginx-ecr --image=public.ecr.aws/nginx/nginx
 
 ---
 
-### Lab 5: Policy Reports & Auditing
+### 5. Policy Reports & Auditing
 
 Kyverno generates Policy Reports for all policy validations.
 

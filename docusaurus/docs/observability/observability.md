@@ -93,24 +93,16 @@ prepare-environment
 
 ### 2.1 Control Plane Logging
 
-### Overview
-EKS control plane logging captures logs from API server, audit, authenticator, controller manager, and scheduler components.
-
-#### Configuring control plane logs
-The Logging tab shows the current configuration for control plane logs for the cluster:
+EKS control plane logging captures logs from API server, audit, authenticator, controller manager, and scheduler components.\n\n**Configuring control plane logs:**\n\nThe Logging tab shows the current configuration for control plane logs for the cluster:
 ![](../img/observibility/2026-02-05-00-44-05.png)
 You can alter the logging configuration by clicking the Manage button:
 ![](../img/observibility/2026-02-05-00-45-00.png)
 ![](../img/observibility/2026-02-05-00-45-40.png)
 The Logging tab shows the current configuration for control plane logs for the cluster:
-![](../img/observibility/2026-02-05-00-46-46.png)
-#### Viewing in CloudWatch
-Filter for /aws/eks prefix and select the cluster you want verify the logs:
+![](../img/observibility/2026-02-05-00-46-46.png)\n\n**Viewing in CloudWatch:**\n\nFilter for /aws/eks prefix and select the cluster you want verify the logs:
 ![](../img/observibility/2026-02-05-00-48-10.png)
 You will be presented with a number of log streams in the group:
-![](../img/observibility/2026-02-05-00-48-43.png)
-#### CloudWatch Log Insights
-You will be presented with a screen that looks like this:
+![](../img/observibility/2026-02-05-00-48-43.png)\n\n**CloudWatch Log Insights:**\n\nYou will be presented with a screen that looks like this:
 ![](../img/observibility/2026-02-05-00-50-05.png)
 In the Log Insights console select the log group for your EKS cluster:
 ![](../img/observibility/2026-02-05-00-52-00.png)
@@ -119,12 +111,9 @@ Copy the query to the console and press Run query, which will return results:
 
 ### 2.2 Pod Logging with Fluent Bit
 
-### Overview
 Fluent Bit is a lightweight log processor deployed as a DaemonSet to collect and forward container logs from `/var/log/containers/*.log` to CloudWatch Logs.
 
 ![](../img/observibility/2026-02-05-00-55-16.png)
-
-### Steps
 
 **Step 1:** Verify Fluent Bit DaemonSet
 ```bash
@@ -178,7 +167,7 @@ This will make the following changes to your lab environment:
 - Install the OpenTelemetry operator
 - Create an IAM role for the ADOT collector to access CloudWatch
 
-#### Cluster metrics 
+### 3.1 Cluster metrics
 
 **Step 1:** Review collector manifest
 The OpenTelemetry collector runs as a DaemonSet (one pod per node) to collect telemetry from nodes and container runtime.
@@ -219,7 +208,7 @@ kubectl get pod -n other -l app.kubernetes.io/name=adot-container-ci-collector
 
 > Note: It may take a few minutes for data to appear in CloudWatch.
 
-#### Using CloudWatch Logs Insights
+### 3.2 Using CloudWatch Logs Insights
 
 Container Insights stores performance log events in CloudWatch Logs using Embedded Metric Format. Use CloudWatch Logs Insights to analyze this data.
 
@@ -245,7 +234,7 @@ STATS avg(number_of_container_restarts) as avg_number_of_container_restarts by P
 
 ![](../img/observibility/2026-02-05-03-35-32.png)
 
-#### Application Metrics
+### 3.3 Application Metrics
 
 Collect application-specific metrics (Java heap, database connections, business KPIs) using Prometheus receiver and visualize in CloudWatch.
 
@@ -331,8 +320,6 @@ kubectl delete pod load-generator -n other
 ### Overview
 Use AWS Distro for OpenTelemetry (ADOT) to collect metrics, Amazon Managed Service for Prometheus (AMP) to store them, and Amazon Managed Grafana (AMG) to visualize.
 
-### Steps
-
 **Step 1:** Prepare environment
 ```bash
 prepare-environment observability/oss-metrics
@@ -401,23 +388,21 @@ awscurl -X POST --region $AWS_REGION --service aps \
 
 ## 5. OpenSearch for Observability
 
-### Overview
 Use Amazon OpenSearch Service to ingest, search, visualize and analyze Kubernetes events, control plane logs, and pod logs.
 
-Prepare environment
+**Prepare environment:**
 ```bash
 prepare-environment observability/opensearch
 ```
 
 This will make the following changes to your lab environment:
-
 - Cleanup resources from earlier EKS workshop modules
 - Provision an Amazon OpenSearch Service domain (see note below)
 - Setup Lambda function that is used to export EKS control plane logs from CloudWatch Logs to OpenSearch
 
 Note: OpenSearch domain provisioning takes ~30 minutes
 
-### Access OpenSearch
+### 5.1 Access OpenSearch
 
 Credentials for the OpenSearch domain have been saved in the AWS Systems Manager Parameter Store during the provisioning process. Retrieve this information and set up the necessary environment variables:
 
@@ -444,7 +429,7 @@ You should see the two dashboards (for Kubernetes events and pod logs) that were
 
 ![](../img/observibility/2026-02-05-01-44-15.png)
 
-### Kubernetes Events
+### 5.2 Kubernetes Events
 The following diagram provides an overview of the setup for this section. kubernetes-events-exporter will be deployed in the opensearch-exporter namespace to forward events to the OpenSearch domain. Events are stored in the eks-kubernetes-events index in OpenSearch. An OpenSearch dashboard that we loaded earlier is used to visualize the events.
 ![](../img/observibility/2026-02-05-01-46-54.png)
 Deploy Kubernetes events exporter and configure it to send events to our OpenSearch domain. The base configuration is available here. The OpenSearch credentials we retrieved earlier are being used to configure the exporter. The second command verifies that the Kubernetes events pod is running.
@@ -496,9 +481,9 @@ See events with a warning or failed status.
 See the most recent event (across all namespaces) in JSON format. Notice that the output is very similar to the details found within the OpenSearch index. (The Opensearch document has additional fields to facilitate indexing within OpenSearch).
 ![](../img/observibility/2026-02-05-02-07-19.png)
 
-### Control plane logs 
+### 5.3 Control Plane Logs
 
-#### Overview
+**Overview:**
 Amazon EKS control plane logging provides audit and diagnostic logs directly from the Amazon EKS control plane to CloudWatch Logs. This section demonstrates forwarding these logs from CloudWatch Logs to OpenSearch using a Lambda function.
 
 There are five types of control plane logs available:
@@ -508,7 +493,7 @@ There are five types of control plane logs available:
 - **Controller manager (controllerManager)**: Manages core control loops shipped with Kubernetes
 - **Scheduler (scheduler)**: Manages when and where to run pods in your cluster
 
-#### Architecture
+**Architecture:**
 The following diagram shows the flow from left to right:
 1. Control plane logs are enabled in Amazon EKS, which sends logs to CloudWatch Logs
 2. A CloudWatch Logs subscription filter triggers a Lambda function and sends it the log messages
@@ -516,8 +501,6 @@ The following diagram shows the flow from left to right:
 4. A single OpenSearch index named `eks-control-plane-logs` stores all the control plane logs
 
 ![](../img/observibility/2026-02-05-02-07-43.png)
-
-#### Steps
 
 **Step 1:** Enable EKS control plane logging
 ```bash
@@ -614,14 +597,12 @@ The dashboard provides:
 
 ![](../img/observibility/2026-02-05-02-25-30.png)
 
-### Pod logging
+### 5.4 Pod Logging
 
-#### Overview
+**Overview:**
 Export pod logs to OpenSearch using AWS for Fluent Bit. Fluent Bit collects logs from `/var/log/pods/*.log` on each node and forwards them to OpenSearch for centralized analysis.
 
 ![](../img/observibility/2026-02-05-02-34-02.png)
-
-#### Steps
 
 **Step 1:** Add Helm repo and deploy Fluent Bit
 ```bash
@@ -689,8 +670,6 @@ Dashboard sections:
 
 ### Overview
 Kubecost provides real-time cost visibility and insights for Kubernetes resources, helping track costs by namespace, cluster, pod, or organizational concepts.
-
-### Steps
 
 **Step 1:** Prepare environment
 ```bash
